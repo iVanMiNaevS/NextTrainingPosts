@@ -1,25 +1,47 @@
 import Post from "@/components/post/post";
-import {IPost} from "@/types/IPost";
-import {api} from "@/utils/api";
-import {AxiosResponse} from "axios";
+import { IPost } from "@/types/IPost";
+import { api } from "@/utils/api";
+import { AxiosResponse } from "axios";
 import Image from "next/image";
 
 import styles from "./onePost.module.css";
+import { unstable_cache } from "next/cache";
 
 type typeParams = {
-	params: Promise<{id: string}>;
+	params: { id: string };
 };
 
-export const dynamic = "force-dynamic";
-
-export default async function Page({params}: typeParams) {
-	const {id} = await params;
+export const generateStaticParams = async () => {
+	const { data }: AxiosResponse<IPost[], any> = await api.get<IPost[]>(
+		"/posts",
+		{
+			params: { _limit: 100 },
+		}
+	);
+	return data.map((post) => {
+		return { id: post.id.toString() };
+	});
+};
+export const getCashedPosts = unstable_cache(
+	async (postId) => {
+		const { data }: AxiosResponse<IPost> = await api.get<IPost>(
+			`/posts/${postId}`
+		);
+		return data;
+	},
+	["postCashe"],
+	{ revalidate: 600 }
+);
+export default async function Page({ params }: typeParams) {
+	const { id } = params;
+	const data = await getCashedPosts(id);
 	try {
-		const {data}: AxiosResponse<IPost> = await api.get<IPost>(`/posts/${id}`);
 		return (
 			<div className={styles.post}>
 				<Image
-					src={"https://i.pinimg.com/736x/b7/64/29/b764292e20a9f55e844d538ddf419e35.jpg"}
+					src={
+						"https://i.pinimg.com/736x/b7/64/29/b764292e20a9f55e844d538ddf419e35.jpg"
+					}
 					alt="post image"
 					width={400}
 					height={200}

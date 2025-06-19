@@ -37,4 +37,13 @@
 	border-radius: 1rem;
 	width: 100%;
 	color: var(--purple);
+	transition: 0.3s;
+}
+.post button a:hover {
+	display: block;
+	background: white;
+	padding: 0.5rem;
+	border-radius: 1rem;
+	width: 100%;
+	color: var(--purple);
 }
