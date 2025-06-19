@@ -1,0 +1,18 @@
+.title_page {
+	width: fit-content;
+	margin: -3rem auto 0 auto;
+	background: var(--purple);
+	border-radius: 100%;
+	padding: 1rem;
+	text-align: center;
+	color: var(--green);
+	font-size: 2rem;
+}
+
+.posts {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;
+	margin-top: 1rem;
+	justify-content: center;
+}

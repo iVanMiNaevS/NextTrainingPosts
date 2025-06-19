@@ -1,0 +1,40 @@
+.post {
+	display: flex;
+	flex-direction: column;
+	max-width: 600px;
+	flex: 0 0 30%;
+	min-width: 300px;
+	border-radius: 1rem;
+	background: var(--purple);
+}
+.post img {
+	border-radius: 1rem 1rem 0 0;
+	width: 100%;
+	aspect-ratio: 2/1.5;
+	object-fit: cover;
+}
+.post__textBox {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	color: var(--green);
+	padding: 1rem;
+	font-size: 1.3rem;
+	flex-grow: 1;
+}
+.post h4 {
+	font-size: 1.7rem;
+	border-bottom: 2px solid var(--green);
+}
+
+.post button {
+	margin-top: auto;
+}
+.post button a {
+	display: block;
+	background: var(--green);
+	padding: 0.5rem;
+	border-radius: 1rem;
+	width: 100%;
+	color: var(--purple);
+}
