@@ -17,31 +17,23 @@ import { IUser } from "@/types/IUser";
 // 		revalidate: 3600,
 // 	};
 // };
-export const getCachedUsers = unstable_cache(
-	async () => {
-		const { data } = await api.get<IUser[]>("/users");
-		return data;
-	},
-	["users-cache"],
-	{ revalidate: 600 }
-);
 
-export const getCashedPosts = unstable_cache(
-	async () => {
-		const { data } = await api.get<IPost[]>("/posts", {
-			params: { _limit: 10 },
-		});
-		return data;
-	},
-	["posts-cache"],
-	{ revalidate: 600 }
-);
+export const revalidate = 600;
+
+export const getUsers = async () => {
+	const { data } = await api.get<IUser[]>("/users");
+	return data;
+};
+
+export const getPosts = async () => {
+	const { data } = await api.get<IPost[]>("/posts", {
+		params: { _limit: 10 },
+	});
+	return data;
+};
 
 export default async function PostsPage() {
-	const [posts, users] = await Promise.all([
-		getCashedPosts(),
-		getCachedUsers(),
-	]);
+	const [posts, users] = await Promise.all([getPosts(), getUsers()]);
 
 	const postsWithUsers = posts.map((post) => ({
 		post: { ...post },
